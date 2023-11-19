@@ -29,8 +29,23 @@ pipeline{
           sh "${scanner}/bin/sonar-scanner -Dsonar.projectKey=$NAME_APP -Dsonar.sources=${WORKSPACE}/ -Dsonar.projectVersion=${BUILD_NUMBER} -Dsonar.dependencyCheck.xmlReportPath=${WORKSPACE}/dependency-check-report.xml -Dsonar.dependencyCheck.htmlReportPath=${WORKSPACE}/dependency-check-report.html"
         }
         // Validação da Qualidade de Código
-        //timeout(time: 1, unit: ‘HOUR’)
+        //timeout(time: 15, unit: ‘MINUTES’)
         waitForQualityGate abortPipeline: true
+      }
+    }
+
+    stage('SCA - Dependency Check Scan'){
+      steps{
+        //Execução do escaneamento de dependencias
+        dependencyCheck additionalArguments: 'scan="${WORKSPACE}/" --format ALL',
+        odcInstallation: 'dependency-check'
+      }
+    }
+  
+    stage('SCA - Dependency Check Publish Report'){
+      steps{
+        //Publicação do relatorio de vulnerabilidades de dependencias no Jenkins
+        dependencyCheckPublisher pattern: "dependency-check-report.xml"
       }
     }
   }
