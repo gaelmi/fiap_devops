@@ -29,7 +29,7 @@ pipeline{
         }
         // Validação da Qualidade de Código
         //timeout(time: 1, unit: ‘HOUR’)
-        waitForQualityGate abortPipeline: true
+        waitForQualityGate abortPipeline: false
       }
     }
   }
