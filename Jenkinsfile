@@ -11,7 +11,7 @@ pipeline{
     stage('Repositório de Código'){
       steps{
         git credentialsId: 'gitlab',
-          url: 'git@github.com:gaelmi/fiap_devops.git',
+          url: 'https://github.com/gaelmi/fiap_devops',
           branch: 'main'
         stash 'dexter-repositorio'
       }
