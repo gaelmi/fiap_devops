@@ -17,15 +17,4 @@ pipeline{
       }
     }
   }
-
-  // Execuções de finalização da Pipeline
-  post {
-    always { chuckNorris() }
-    success {
-      echo "Pipeline executada com sucesso!"
-    }
-    failure {
-      echo "Pipeline falhou!"
-    }
-  }
 }
