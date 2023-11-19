@@ -16,6 +16,22 @@ pipeline{
         stash 'dexter-repositorio'
       }
     }
+
+    stage('SCA - Dependency Check Scan'){
+      steps{
+        //Execução do escaneamento de dependencias
+        dependencyCheck additionalArguments: 'scan="${WORKSPACE}/" --format ALL',
+        odcInstallation: 'dependency-check'
+      }
+    }
+  
+    stage('SCA - Dependency Check Publish Report'){
+      steps{
+        //Publicação do relatorio de vulnerabilidades de dependencias no Jenkins
+        dependencyCheckPublisher pattern: "dependency-check-report.xml"
+      }
+    }
+
     stage('SAST - Escaneamento com Sonarqube'){
       environment {
         // Referencia do Scanner do Sonarqube
@@ -29,7 +45,7 @@ pipeline{
         }
         // Validação da Qualidade de Código
         //timeout(time: 1, unit: ‘HOUR’)
-        waitForQualityGate abortPipeline: false
+        waitForQualityGate abortPipeline: true
       }
     }
   }
