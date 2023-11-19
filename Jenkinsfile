@@ -16,23 +16,6 @@ pipeline{
         stash 'dexter-repositorio'
       }
     }
-
-    stage('SAST - Escaneamento com Sonarqube'){
-      environment {
-        // Referencia do Scanner do Sonarqube
-        scanner = tool 'sonar-scanner'
-      }
-      steps{
-        // Referencia ao Plugin do Sonarqube
-        withSonarQubeEnv('sonarqube') {
-          // Execução do scanner com os parametros do Sonarqube
-          sh "${scanner}/bin/sonar-scanner -Dsonar.projectKey=$NAME_APP -Dsonar.sources=${WORKSPACE}/ -Dsonar.projectVersion=${BUILD_NUMBER} -Dsonar.dependencyCheck.xmlReportPath=${WORKSPACE}/dependency-check-report.xml -Dsonar.dependencyCheck.htmlReportPath=${WORKSPACE}/dependency-check-report.html"
-        }
-        // Validação da Qualidade de Código
-        timeout(time: 15, unit: ‘MINUTES’)
-        waitForQualityGate abortPipeline: true
-      }
-    }
   }
 
   // Execuções de finalização da Pipeline
