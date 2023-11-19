@@ -33,21 +33,6 @@ pipeline{
         waitForQualityGate abortPipeline: true
       }
     }
-
-//    stage('SCA - Dependency Check Scan'){
-//     steps{
-        //Execução do escaneamento de dependencias
-//        dependencyCheck additionalArguments: 'scan="${WORKSPACE}/" --format ALL',
-//        odcInstallation: 'dependency-check'
-//      }
-//    }
-  
-//    stage('SCA - Dependency Check Publish Report'){
-//      steps{
-        //Publicação do relatorio de vulnerabilidades de dependencias no Jenkins
-//        dependencyCheckPublisher pattern: "dependency-check-report.xml"
-//      }
-//    }
   }
 
   // Execuções de finalização da Pipeline
